@@ -1,0 +1,18 @@
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+
+String subDirectory = bsh.args[0];
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile).replace('\\', '/');
+
+vars.put("testPlanFileDir", testPlanFileDir);
+
+File folder = new File(testPlanFileDir + "/" + subDirectory + "/");
+File[] listOfFiles = folder.listFiles();
+int counter = 1;
+for (File file : listOfFiles) {
+    if (file.isFile()) {        
+        vars.put(subDirectory + "_" + counter, testPlanFileDir + "/" + subDirectory + "/" + file.getName());
+    }
+    counter++;
+}
